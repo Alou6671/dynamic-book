@@ -1,15 +1,14 @@
 import React from "react";
 
-import { Button, Flex, Text } from "@chakra-ui/react";
 import BookPage from "./BookPage";
 import PageCreator from "./PageCreator";
 import PageEditor from "./PageEditor";
+import { Button, Flex } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
 const Book = () => {
   const [pages, setPages] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(0);
-
   const {
     isOpen: isCreatorOpen,
     onOpen: onCreatorOpen,
@@ -22,11 +21,19 @@ const Book = () => {
     onClose: onEditorClose,
   } = useDisclosure();
 
+  React.useEffect(() => {
+    const storedPages = JSON.parse(localStorage.getItem("pages"));
+    if (storedPages) {
+      setPages(storedPages);
+    }
+  }, []);
+
   const addPage = (title, imageUrl, content) => {
     const pagesCopy = [...pages];
     pagesCopy.push({ title, imageUrl, content, index: pages.length });
     setPages(pagesCopy);
     setCurrentPage(pages.length);
+    localStorage.setItem("pages", JSON.stringify(pagesCopy));
     onCreatorClose();
   };
 
@@ -35,6 +42,7 @@ const Book = () => {
 
     pagesCopy[index] = { title, imageUrl, content, index };
     setPages(pagesCopy);
+    localStorage.setItem("pages", JSON.stringify(pagesCopy));
     onEditorClose();
   };
 
@@ -53,6 +61,8 @@ const Book = () => {
     if (index > 0) {
       setCurrentPage(index - 1);
     }
+    localStorage.setItem("pages", JSON.stringify(pagesCopy));
+
     onEditorClose();
   };
 
@@ -75,7 +85,6 @@ const Book = () => {
           colorScheme="blue"
           variant="outline"
           size="lg"
-          mb={4}
           onClick={onCreatorOpen}
         >
           Add page
