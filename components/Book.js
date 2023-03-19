@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import BookPage from "./BookPage";
 import PageCreator from "./PageCreator";
+import PageEditor from "./PageEditor";
 import { useDisclosure } from "@chakra-ui/react";
 
 const Book = () => {
@@ -13,6 +14,12 @@ const Book = () => {
     isOpen: isCreatorOpen,
     onOpen: onCreatorOpen,
     onClose: onCreatorClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEditorOpen,
+    onOpen: onEditorOpen,
+    onClose: onEditorClose,
   } = useDisclosure();
 
   const addPage = (title, imageUrl, content) => {
@@ -27,6 +34,33 @@ const Book = () => {
     ]);
     setCurrentPage(pages.length);
     onCreatorClose();
+  };
+
+  const updatePage = (title, imageUrl, content, index) => {
+    const pagesCopy = [...pages];
+
+    pagesCopy[index] = { title, imageUrl, content, index };
+    setPages(pagesCopy);
+    onEditorClose();
+  };
+
+  const reorganizeIndexes = (pagesCopy) => {
+    pagesCopy.forEach((page, index) => {
+      page.index = index;
+    });
+  };
+
+  const deletePage = (index) => {
+    console.log(index);
+    const pagesCopy = [...pages];
+
+    pagesCopy.splice(index, 1);
+    reorganizeIndexes(pagesCopy);
+    setPages(pagesCopy);
+    if (index > 0) {
+      setCurrentPage(index - 1);
+    }
+    onEditorClose();
   };
 
   const nextPage = () => {
@@ -58,6 +92,25 @@ const Book = () => {
           isOpen={isCreatorOpen}
           onClose={onCreatorClose}
         />
+        {pages.length > 0 && (
+          <>
+            <Button
+              colorScheme="orange"
+              variant="outline"
+              size="lg"
+              onClick={onEditorOpen}
+            >
+              Edit page
+            </Button>
+            <PageEditor
+              onEditPage={updatePage}
+              onDeletePage={deletePage}
+              isOpen={isEditorOpen}
+              onClose={onEditorClose}
+              page={pages[currentPage]}
+            />
+          </>
+        )}
       </Flex>
       {pages.length > 0 && (
         <>
