@@ -29,6 +29,12 @@ const PageCreator = ({ onAddPage, isOpen, onClose }) => {
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
+  const handleAddPage = () => {
+    onAddPage(title, imageUrl, content);
+    setTitle("");
+    setImageUrl("");
+    setContent("");
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -62,10 +68,7 @@ const PageCreator = ({ onAddPage, isOpen, onClose }) => {
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button
-            colorScheme="blue"
-            onClick={() => onAddPage(title, imageUrl, content)}
-          >
+          <Button colorScheme="blue" onClick={handleAddPage}>
             Add this page
           </Button>
         </ModalFooter>

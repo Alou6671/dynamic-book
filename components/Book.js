@@ -23,15 +23,9 @@ const Book = () => {
   } = useDisclosure();
 
   const addPage = (title, imageUrl, content) => {
-    setPages([
-      ...pages,
-      {
-        title: title,
-        imageUrl: imageUrl,
-        content: content,
-        index: pages.length,
-      },
-    ]);
+    const pagesCopy = [...pages];
+    pagesCopy.push({ title, imageUrl, content, index: pages.length });
+    setPages(pagesCopy);
     setCurrentPage(pages.length);
     onCreatorClose();
   };
@@ -51,7 +45,6 @@ const Book = () => {
   };
 
   const deletePage = (index) => {
-    console.log(index);
     const pagesCopy = [...pages];
 
     pagesCopy.splice(index, 1);
