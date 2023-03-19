@@ -1,5 +1,6 @@
 import React from "react";
 
+// Lib
 import {
   Modal,
   ModalOverlay,
@@ -50,7 +51,6 @@ const PageCreator = ({ onAddPage, isOpen, onClose }) => {
               onChange={handleTitleChange}
             />
           </FormControl>
-
           <FormControl mt={4}>
             <FormLabel>Page image</FormLabel>
             <Input
@@ -58,7 +58,6 @@ const PageCreator = ({ onAddPage, isOpen, onClose }) => {
               onChange={handleImageUrlChange}
             />
           </FormControl>
-
           <FormControl mt={4}>
             <FormLabel>Page content</FormLabel>
             <Textarea

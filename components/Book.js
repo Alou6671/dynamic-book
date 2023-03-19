@@ -1,8 +1,11 @@
 import React from "react";
 
+// Components
 import BookPage from "./BookPage";
 import PageCreator from "./PageCreator";
 import PageEditor from "./PageEditor";
+
+// Lib
 import { Button, Flex } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
